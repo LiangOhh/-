@@ -163,7 +163,9 @@ console.log(obj==obj1);   //false
 
 ### 深拷贝
 
-`structuredClone(array)`
+#### 数组
+
+`structuredClone(array)` 数组和对象通用
 
 ```js
 let array = [{name:'a',age:18},
@@ -175,6 +177,12 @@ console.log(array);
 console.log(array5);
 console.log(array==array5);              //false
 ```
+
+#### 对象
+
+`JSON`
+
+使用`JSON.stringify()`转化为字符串,再使用`JSON.parse()`转化为对象
 
 ## 高阶函数
 
@@ -401,13 +409,75 @@ for(let i = 0;i<sort_Array.length-1;i++){
 + [for  (item in obj)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in)
 ### [常用内置对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects)
 
-+ [Math](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/PI)
+#### [Math](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/PI)
+   工具类     `Math` 的所有属性与方法都是静态的
 
-  `Math` 的所有属性与方法都是静态的
+以生成伪随机数为例
 
-+ [Date](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date)
+[`Math.random`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/random)
 
-  创建一个 JavaScript `Date` 实例
+生成1~10 的随机数
+
+```js
+function getRandomIntInclusive(min, max) {
+    const minCeiled = Math.ceil(min);	//向上，返回大于等于给定数字的最小整数。
+    const maxFloored = Math.floor(max);	//向下
+    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // 包含最小值和最大值
+}
+```
+
+
+
+#### [Date](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date)
+​       创建一个 JavaScript `Date` 实例
+
++ Date.now()
+
+  静态方法,获取当前时间戳
+
+  ```js
+  // 获取时间戳
+  const timeStamp = Date.now()
+  console.log(timeStamp);
+  // 转接时间戳为可读格式
+  const date = new Date(timeStamp)
+  console.log(date);
+  ```
+
+  
+
+#### [Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)
+  `Map` 对象是键值对的集合。`Map` 中的一个键**只能出现一次**；
+  通过set()设置属性
+  通过get()获取value
+  通过delete()删除属性
+
+  ```js
+  let person2 =new Map()
+  person2.set('name','super')
+  person2.set('age',18)
+  console.log(person2.get('age'));   //18
+  person2.delete('age')
+  console.log(person2.get('age'));   //undefined
+  ```
+
+  #### [Set](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set)
+
+不允许存储重复数据
+
+通过add()添加属性数据
+
+```js
+const set_obj = new Set()
+console.log(typeof(arr));
+set_obj.add('admin')
+set_obj.add(18)
+set_obj.add(18)      //加不进去
+console.log(set_obj);    
+console.log(set_obj.has(18));    true
+```
+
+
 
 ## 类
 
@@ -749,11 +819,30 @@ DOM获取的节点为伪数组,即没有数组的实例属性
 
 在父节点设置监听,通过冒泡影响子节点,通过target获取相应节点内容
 
+### 样式
+
+#### 获取样式
+
++ [getComputedStyle()](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getComputedStyle)
+
+```js
+const celectStyle= getComputedStyle(id)
+```
+
+
+
 ### [正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_expressions)
 
 **Regular Expression**,返回一个对象
 
-创建正则表达式
+`new RegExp(rule,mode)`    
+
+rule:匹配规则
+
+mode:匹配模式
+
++ test()
++ exec()
 
 ```js
 //创建正则表达式temp
@@ -871,7 +960,7 @@ p.appendChild(newLi)
 
 ### [location](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/location)
 
-![image-20240610224230196](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240610224230196.png)
+![image-20240610224230196](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180715275.png)
 
 + hrel                   页面跳转
 + search               获取参数
@@ -890,7 +979,7 @@ p.appendChild(newLi)
 
 ### [scroll](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/scroll)
 
-![image-20240611012928594](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240611012928594.png)
+![image-20240611012928594](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180716019.png)
 
 ### 立即执行函数
 
@@ -983,11 +1072,11 @@ function(){
 
 ## 选择器
 
-![image-20240611095436788](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240611095436788.png)
+![image-20240611095436788](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180717742.png)
 
-![image-20240611100026677](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240611100026677.png)
+![image-20240611100026677](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180716149.png)
 
-![image-20240611100255369](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240611100255369.png)
+![image-20240611100255369](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180717458.png)
 
 ## CSS方法
 
@@ -1073,7 +1162,7 @@ $(
 
 ## [尺寸](https://www.jquery123.com/category/manipulation/style-properties/)
 
-![image-20240611122026240](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240611122026240.png)
+![image-20240611122026240](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180717888.png)
 
 ## 位置
 
