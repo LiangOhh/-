@@ -82,30 +82,177 @@ Js为弱类型语言,变量类型可被自动确定,即数据类型可变
   //只能是纯数字
   ```
 
+## 深浅拷贝
 
-## [数组](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)
+### 浅拷贝
 
-### crud
+**`...`**展开运算符也可实现浅拷贝
 
-+ push 尾部追加
-+ unshift  头部追加
-+ pop  删除末尾一个元素,返回值为**`被删除元素`**
-+ shift 删除头部第一个元素,返回值为**`被删除元素`**
-+ [splice](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) 从index开始删除
+#### 数组
 
-### [sort](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+只复制一层,不会影响原数组
 
- sort()排序只看第一位数,故超过一位数排序会出错
+单层模型无影响
 
-使用`sort(compareNumbers)`进行优化
+```js
+let array3 = [1,2,3,4]
+let array4 = array3
+array4[0]=0                   //会影响array3
+console.log(array3); 
+console.log(array4);
+console.log(array3==array4);   //true
+```
 
-```js	
-function compareNumbers(a, b) {
-  return a - b;
+```js
+let array3 = [1,2,3,4]
+let array4 = array3.slice()
+array4[0]=0                    //slice浅拷贝,单层不会影响
+console.log(array3);
+console.log(array4);
+console.log(array3==array4);   //false
+```
+
+多层
+
+```js
+let array = [{name:'a',age:18},
+    {name:'b',age:20}
+]
+let array2 =array
+array2[0].name ='c'            //修改会影响array
+console.log(array);
+console.log(array2);		
+console.log(array==array2);    //true
+```
+
+```js
+let array = [{name:'a',age:18},
+    {name:'b',age:20}
+]
+// 使用slice
+let array2 =array.slice()     //修改会影响array
+array2[0].name ='c'
+console.log(array);
+console.log(array2);
+console.log(array==array2);   //false
+```
+
+#### 对象
+
+调用静态方法`Object.assign`
+
+```
+let obj = {name:'猴子',age:19}
+let obj1 =obj
+obj1.name='白骨精'        //会影响
+console.log(obj); 
+console.log(obj1);
+console.log(obj==obj1);   //true
+```
+
+```js
+let obj = {name:'猴子',age:19}
+let obj1 = Object.assign({},obj) 
+obj1.name='白骨精'        //不会会影响
+console.log(obj); 
+console.log(obj1);
+console.log(obj==obj1);   //false
+```
+
+
+
+### 深拷贝
+
+`structuredClone(array)`
+
+```js
+let array = [{name:'a',age:18},
+    {name:'b',age:20}
+]
+let array5 = structuredClone(array)
+array5[0].name ='c'                     //修改不会影响
+console.log(array);
+console.log(array5);
+console.log(array==array5);              //false
+```
+
+## 高阶函数
+
+### bind
+
+创建新函数,并永久绑定`this`
+
+```js
+const newfn = fn.bind(obj)
+```
+
+
+
+## 闭包
+
+闭包产生于外部函数调用,销亡于内部函数丢失(null、回收)
+
+访问外部函数作用域的变量
+
+1. 通过函数嵌套实现,外部函数创建变量
+2. 内部函数引用外部函数的变量
+3. 内部函数作为返回值
+
+示例
+
+```js
+//闭包
+function outer() {
+    let num = 0;
+    // 嵌套函数
+    return () => {
+        num++
+        console.log(`闭包内联函数:${num}`);
+    }
+}
+const newFn = outer()
+for (let index = 0; index < 3; index++) {
+    newFn()
 }
 ```
 
-### [map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+### 外层函数作用域
+
+ 与调用位置无关,先找声明->外部->全局
+
+
+
+## [数组](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
+### 遍历
+
+#### for ...of ...Array
+
+#### forEach
+
+forEach([element],[index],[array])
+
+```JS
+array.forEach(element=>{
+    console.log(element)
+})
+```
+#### [filter](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+
+用法例子
+
+```js
+// filter
+let arr = [33, 99, 22, 19, 29]
+console.log('改变前', arr);
+let new_arr = arr.filter(
+    item => {
+        return item > 30
+    }
+)
+console.log(new_arr);
+```
+#### [map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 
 ```js
 //map
@@ -121,24 +268,44 @@ map_obj.map(
     }
 )
 ```
+### [sort](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 
+ sort()排序只看第一位数,故超过一位数排序会出错
+
+使用`sort(compareNumbers)`进行优化
+
+```js	
+function compareNumbers(a, b) {
+  return a - b;
+}
+//可简写成箭头函数
+sort((a,b)=> a-b)   //升序
+sort((a,b)=> b-a)   //降序
+```
 ### [join](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/join)
 
-### [filter](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+分割
 
-用法例子
++ `join('')`
+
+### slice
+
+切片,浅拷贝,因此可借助此实例方法进行复制
 
 ```js
-// filter
-let arr = [33, 99, 22, 19, 29]
-console.log('改变前', arr);
-let new_arr = arr.filter(
-    item => {
-        return item > 30
-    }
-)
-console.log(new_arr);
+array.slice(start,end)
 ```
+
+### 破坏性方法
+
+#### crud
+
++ push 尾部追加
++ unshift  头部追加
++ pop  删除末尾一个元素,返回值为**`被删除元素`**
++ shift 删除头部第一个元素,返回值为**`被删除元素`**
++ [splice](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) 从index开始删除
++ reverse  反转数组
 
 ### 获取索引
 
@@ -163,6 +330,64 @@ console.log(new_arr);
 + [join()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/join)
 
   ​	将数组转换为字符串,默认为`,`分割,可自定义分割
+
+### 数组去重
+
++ new Set(repeatArray)        ES6新增数组去重方法
++ 创建新数组,向其中push的过程调用indexOf()进行过滤
+
+```js
+// ES6语法
+let newArry = [...new Set(repeat_Array)];
+console.log(newArry);
+let filterArray = []
+// 过滤语法
+repeat_Array.filter((item) => {
+    //    console.log(item);
+    if (filterArray.indexOf(item) === -1) {
+        filterArray.push(item)
+    }
+})
+console.log(filterArray);
+```
+
+### 数组排序
+
+#### 冒泡排序
+
+```js
+for(let i = 0;i<sort_Array.length-1;i++){
+    for (let j = 0; j < sort_Array.length-i-1; j++) {    
+        if(sort_Array[j]>sort_Array[j+1]){ 
+            let temp = sort_Array[j]        
+            sort_Array[j]=sort_Array[j+1]
+            sort_Array[j+1]=temp
+        }
+    }
+}
+```
+
+#### 选择排序
+
+时间复杂度比冒泡排序高
+
+### [arguments](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments)
+**`arguments`** 是一个对应于传递给函数的参数的类数组对象(伪数组)。
+
+通过数组的静态方法`Array.isArray()`判断是否为数组
+
+```js
+  console.log(Array.isArray(arguments));      //false
+  console.log(typeof(arguments));             //Object
+```
+
+可通过**arguments[index]**获取传递值
+
+### 可变参数
+
+`...args`  是数组,优化arguments不足
+
+
 
 ## [对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/Object)
 
@@ -216,7 +441,13 @@ ldh.sayhi()
 
 ### instanceof
 
-使用**`instanceof`**判断某个实例是否属于某个类
+使用**`instanceof`**判断某个对象是否属于某个类的实例
+
+原理,检查对象的原型链上是否有该类的实例
+
+### hasOwnProperty
+
+检查对象自身属性是否含有,`in`会检查到原型链
 
 ### [私有属性](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes/Private_properties)
 
@@ -389,15 +620,45 @@ console.log(Object.getPrototypeOf(cat2) === cat1.__proto__);//true
 
 + split('分隔符')
 
-## [argument](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments)
+## 序列化
+
++ 转化为字符串
+
+  `JSON.stringify`()
+
++ 转化为对象
+
+  `JSON.parse()`
+
+```js
+ let person = {
+            name: 'admin',
+            age: 19
+        }
+ let str = JSON.stringify(person)
+ let obj = JSON.parse(str)
+ console.log(obj);
+ console.log(str, typeof (str));           //string
+ console.log(obj, typeof (obj));           //object
+```
 
 
-
-**`arguments`** 是一个对应于传递给函数的参数的类数组对象。
-
-可通过**arguments[index]**获取传递值
 
 ## 匿名函数
+
+## 改变this指向
+
+**注意!!!!!!箭头函数自身没有`this`,无法通过`call`,`apply`,`bind`改变`this`的指向,且箭头函数没有arguments**
+
+第一个参数就是函数的this
+
+### call
+
+`call(this,argument)`
+
+### apply
+
+`apply(this,array[])`
 
 ## [prompt](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/prompt)()
 
