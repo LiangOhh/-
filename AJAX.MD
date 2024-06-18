@@ -63,7 +63,7 @@ const query = temp.toString()
 console.log(Promise)
 ```
 
-![image-20240605011144351](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240605011144351.png)
+![image-20240605011144351](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180725269.png)
 
 ### 实例化Promise
 
@@ -75,7 +75,7 @@ new Promise((resolve,reject)=>{
 
 查看实例化后的对象,状态为pending
 
-![image-20240605011708807](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240605011708807.png)
+![image-20240605011708807](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180725830.png)
 
 ## Axios
 

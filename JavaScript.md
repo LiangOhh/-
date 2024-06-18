@@ -748,8 +748,6 @@ console.log(Object.getPrototypeOf(cat2) === cat1.__proto__);//true
 
 DOM获取的节点为伪数组,即没有数组的实例属性
 
-### [事件](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/click_event)
-
 ### 修改节点内容
 
 + [innerText](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/innerText)
@@ -760,8 +758,23 @@ DOM获取的节点为伪数组,即没有数组的实例属性
 
 ### 类名操作
 
-+ className
-+ [classList](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/classList)
+#### [className](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/className)
+
+
+
+#### [classList](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/classList)
+
++ add
++ reomve
++ contains
++ toggle
+
+```js
+classList.add('yourStyleName')
+classList.remove('yourStyleName')
+```
+
+
 
 ### 自定义属性
 
@@ -772,52 +785,60 @@ DOM获取的节点为伪数组,即没有数组的实例属性
 + [removeAttribute](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/removeAttribute)
 + [dataset](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/dataset)
 
-### [事件流](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/click_event)
+### [事件](https://developer.mozilla.org/zh-CN/docs/Web/API/Event)
+
++ **Event**
+
+​	Event,target    事件触发的对象
+
+#### [事件流](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/click_event)
 
 1. 捕获阶段
 2. 当前目标阶段
 3. 冒泡阶段
 
+##### 阻止默认行为
+
++ preventDefault
+
+##### 阻止冒泡行为
+
++ [stopPropagation](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/stopPropagation)
+
 #### 常用键鼠事件
 
-+ [鼠标事件](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent)
+##### [鼠标事件](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent)
 
   + click
 
-  + [contextmenu](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/contextmenu_event)  禁用鼠标右键菜单
+  + [contextmenu](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/contextmenu_event)     禁用鼠标右键菜单
 
-  + mousemove
+  + mousemove              鼠标移动
 
-  + mouseenter 不会冒泡
+  + mouseenter               **不会冒泡**
 
-  + mouseleave  不会冒泡
+  + mouseleave               不会冒泡
 
-  + mouseover   会冒泡
+  + mouseover                 **会冒泡**
 
-  + [pageX](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/pageY)    获取距离页面的距离
+  + [pageX](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/pageY)                    获取距离页面的距离
 
     
 
-+ [键盘事件](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)
+##### [键盘事件](https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent)
 
   + keyup   弹起触发
   + keydown  按下触发  (能识别**功能键**,不区分**大小写**)
   + keypress   按下触发  (不能识别**功能键**,区别**大小写**)
 
-+ [聚焦事件](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/focus_event)
+##### [聚焦事件](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/focus_event)
   + focus
 
-#### 阻止默认行为
+#### 事件委托
 
-+ preventDefault
+在父节点设置监听,通过冒泡影响子节点,这就是委托,委托具有附加绑定事件
 
-#### 阻止冒泡行为
-
-+ [stopPropagation](https://developer.mozilla.org/zh-CN/docs/Web/API/Event/stopPropagation)
-
-### 事件委托
-
-在父节点设置监听,通过冒泡影响子节点,通过target获取相应节点内容
+通过target获取相应节点内容
 
 ### 样式
 
@@ -960,12 +981,138 @@ p.appendChild(newLi)
 
 ### [location](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/location)
 
+获取浏览器地址信息
+
 ![image-20240610224230196](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406180715275.png)
 
-+ hrel                   页面跳转
-+ search               获取参数
+#### 静态方法
+
++ href
++ host
+
+```js
+document.querySelector('.btn2').addEventListener(
+    'click',()=>{
+        // location='https://www.baidu.com'
+        // location.href='https://www.baidu.com'       
+    }
+)
+```
+
+#### 实例方法
+
++ *assign*
++ *replace* 不可回退
++ reload   刷野页面
+
+```js
+document.querySelector('.btn2').addEventListener(
+    'click',()=>{
+        
+        // location.assign('https://www.baidu.com')      //可回退
+        // location.replace('https://www.baidu.com')      //不可回退
+		location.reload(true)            //强制清空
+        
+    }
+)
+```
+
+
 
 ### [navigator](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator)
+
+浏览器对象,常用于识别浏览器
+
+#### [geolocation](https://blog.csdn.net/2401_83916283/article/details/137140479?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171867144916800188525346%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171867144916800188525346&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-137140479-null-null.142^v100^pc_search_result_base8&utm_term=getCurrentPosition&spm=1018.2226.3001.4187)        
+
++ 获取地址
+
+```js
+if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            console.log("Latitude: " + position.coords.latitude);
+                            console.log("Longitude: " + position.coords.longitude);
+                        },
+                        (error) => {
+                            console.error(error.code + " - " + error.message);
+                        },
+                        {
+                            enableHighAccuracy: true, // 高精度模式（可选）
+                            timeout: 5000,            // 超时时间（可选）
+                            maximumAge: 0             // 最大缓存时间（可选）
+                        }
+                    );
+                } else {
+                    console.log("Geolocation is not supported by this browser.");
+                }
+}
+```
+
+#### userAgent  
+
+ 返回用户浏览器信息 ,返回值类型为字符串
+
+```js
+ function getBrowserName(userAgent) {
+            // 此处顺序很重要，并且对于未列出的浏览器，这可能会报错。
+            if (userAgent.includes("Firefox")) {
+                // "Mozilla/5.0 (X11; Linux i686; rv:104.0) Gecko/20100101 Firefox/104.0"
+                return "Mozilla Firefox";
+            } else if (userAgent.includes("SamsungBrowser")) {
+                // "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955F Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.4 Chrome/67.0.3396.87 Mobile Safari/537.36"
+                return "Samsung Internet";
+            } else        function getBrowserName(userAgent) {
+            // 此处顺序很重要，并且对于未列出的浏览器，这可能会报错。
+            if (userAgent.includes("Firefox")) {
+                // "Mozilla/5.0 (X11; Linux i686; rv:104.0) Gecko/20100101 Firefox/104.0"
+                return "Mozilla Firefox";
+            } else if (userAgent.includes("SamsungBrowser")) {
+                // "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955F Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.4 Chrome/67.0.3396.87 Mobile Safari/537.36"
+                return "Samsung Internet";
+            } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
+                // "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_5_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36 OPR/90.0.4480.54"
+                return "Opera";
+            } else if (userAgent.includes("Edge")) {
+                // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
+                return "Microsoft Edge (Legacy)";
+            } else if (userAgent.includes("Edg")) {
+                // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36 Edg/104.0.1293.70"
+                return "Microsoft Edge (Chromium)";
+            } else if (userAgent.includes("Chrome")) {
+                // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+                return "Google Chrome 或 Chromium";
+            } else if (userAgent.includes("Safari")) {
+                // "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1"
+                return "Apple Safari";
+            } else {
+                return "未知";
+            }
+        }
+        const browserName = getBrowserName(navigator.userAgent);
+        console.log(`你正在使用 ${browserName} 浏览器`); if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
+                // "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_5_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36 OPR/90.0.4480.54"
+                return "Opera";
+            } else if (userAgent.includes("Edge")) {
+                // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
+                return "Microsoft Edge (Legacy)";
+            } else if (userAgent.includes("Edg")) {
+                // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36 Edg/104.0.1293.70"
+                return "Microsoft Edge (Chromium)";
+            } else if (userAgent.includes("Chrome")) {
+                // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
+                return "Google Chrome 或 Chromium";
+            } else if (userAgent.includes("Safari")) {
+                // "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6 Mobile/15E148 Safari/604.1"
+                return "Apple Safari";
+            } else {
+                return "未知";
+            }
+        }
+        const browserName = getBrowserName(navigator.userAgent);
+```
+
+
 
 ### [history](https://developer.mozilla.org/zh-CN/docs/Web/API/History)
 
