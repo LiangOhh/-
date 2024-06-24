@@ -36,9 +36,7 @@
 
   使用  **:**     ,如  **[:hover](https://developer.mozilla.org/en-US/docs/Web/CSS/:hover)**  常用于添加样式,LVHA如下
 
-  ![image-20240606234607370](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240606234607370.png)
-
-- [ ] 
+  ![image-20240606234607370](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406181921725.png)
 
 ## [字体](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font)
 
@@ -122,7 +120,7 @@ input、img、td
 
 ### [box-shadow](https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow)
 
-![image-20240607025414449](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240607025414449.png)
+![image-20240607025414449](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406181921663.png)
 
 ![image-20240607025440309](C:\Users\椋\AppData\Roaming\Typora\typora-user-images\image-20240607025440309.png)
 

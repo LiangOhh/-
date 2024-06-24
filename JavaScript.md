@@ -1116,6 +1116,8 @@ if (navigator.geolocation) {
 
 ### [history](https://developer.mozilla.org/zh-CN/docs/Web/API/History)
 
+
+
 ### offset
 
 **`offset`**属性只读不可写,**`style`**可读可写
