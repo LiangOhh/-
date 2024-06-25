@@ -331,8 +331,6 @@ provide('provide_str', provide_str.value)
 
 ```
 
-
-
 #### 注入依赖
 
 子组件`inject(key)`
@@ -349,5 +347,127 @@ const str = inject('provide_str')
 console.log(str);
 </script>
 <style scoped></style>
+```
+
+## [Pinia](https://pinia.vuejs.org/zh/getting-started.html)
+
+1. 安装Pinia库
+
+```bash
+npm i pinia
+```
+
+2. 使用插件库
+
+```js
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
+```
+
+### 选项式
+
+#### 创建store
+
++ `defineStore`
+
+使用`defineStore('storeID',OPTION)`
+
+```js
+import { defineStore } from "pinia";
+export const useInfoStore = defineStore(
+    'userInfo', {
+    state: () => ({
+        name: '椋',
+        age: 18,
+        address: '广东省'
+    }),
+    getters: {
+        double: (state) => state.age * 2
+    },
+    actions: {
+        increment() {
+            this.age++
+        }
+    }
+}
+)
+```
+
+#### [解构](https://pinia.vuejs.org/zh/api/modules/pinia.html#storetorefs)
+
++ `storeToRefs`
+
+`storeToRefs()`
+
+```JS
+import { useInfoStore } from '../src/store/infoStore'
+import { storeToRefs } from 'pinia';
+const info = useInfoStore()
+//解构
+const { name, age, address } = storeToRefs(info)
+function btn1() {
+    info.$patch(
+        state => {
+            state.address = '上海'
+        }
+    )
+}
+```
+
+#### API
+
+##### $patch
+
+修改
+
+```js\
+info.$patch(
+        state => {
+            state.address = '上海'
+        }
+)
+```
+
+##### $subscribe
+
+订阅
+
+```js
+info.$subscribe((mutation, state) => {
+    // console.log(state);
+    console.log(mutation);
+})
+```
+
+##### $onAction
+
+调用方法后触发
+
+```js
+info.$onAction((...args) => {
+    console.log(args);
+})
+```
+
+![image-20240625125848070](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406251258495.png)
+
+```js
+info.$onAction(
+    ({ name, after, onError }) => {
+        after(() => {
+            console.log(name + '函数调用成功');
+        })
+        onError(() => {
+            console.log(name + '函数调用失败');
+        })
+    }
+)
 ```
 
