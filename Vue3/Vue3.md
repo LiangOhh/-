@@ -90,12 +90,91 @@ computed:{
 
 ### setup
 
+## Diff
+### V3
+![image-20240627001529610](https://raw.githubusercontent.com/LiangOhh/MyPic/master/test/pic202406270015220.png)
 
++ 乱序
+1. 构建新节点的映射关系,并记录新节点在旧节点的位置
+2. 排序
+3. 最长递增子系列算法
+
+## ref
+
+### ref
+
+1. 深层响应式
+2. 获取dom元素
+
+```vue
+<script setup>
+
+import { isRef, ref, shallowRef, triggerRef } from 'vue';
+
+const myref = ref()
+const btn2 = () => {
+  console.log(myref?.value.innerHTML);
+}
+</script>
+
+<template>
+  <div ref="myref" style="color: red;">这是ref获取dom</div>
+</template>
+
+<style scoped></style>
+
+```
+
+
+
+### shallowRef
+
+  浅层响应式
+
+### isRef
+
+判断是否属于ref
+
+### triggerRef
+
+强制更新
+
+### customRef
+
+自定义ref
+
+## reactive
+
+只支持引用类型,是Proxy类型,直接赋值会丧失响应式
+
+### reactive
+
+深层
+
+### readonly
+
+只读
+
+### shallowReactive
+
+浅层
+
+## to
+
+### [toRef](https://cn.vuejs.org/api/reactivity-utilities.html#toref)
+
+单独提取一个属性出来修改,只能修改响应式数据的,非响应式无变化
+
+### toRefs
+
+用于解构赋值保持响应式
+
+### [toRaw](https://cn.vuejs.org/api/reactivity-advanced.html#toraw)
+
+丢弃响应式
 
 ## [插槽](https://cn.vuejs.org/guide/components/slots.html)
-
 ### 默认插槽
-
 ```vue
 <!-- 子组件插槽位置  -->
 <template>
@@ -470,4 +549,85 @@ info.$onAction(
     }
 )
 ```
+
+## [路由](https://router.vuejs.org/zh/)
+### 安装路由
+```bash
+npm install vue-router@4
+```
+导入路由模块
+1. 在router文件下创建js文件([配置项](https://router.vuejs.org/zh/api/interfaces/RouterOptions.html#Properties))
+
+```js
+// 引入路由createRouter模块
+import { createMemoryHistory, createRouter } from 'vue-router'
+
+//引入路由组件 
+import HomeView from './HomeView.vue'
+import AboutView from './AboutView.vue'
+
+// 创建路由器,传入路由配置项(routes:路由规则、history:路由工作模式)
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes,
+})
+
+//创建路由规则
+const routes = [
+  { path: '/', component: HomeView },
+  { path: '/about', component: AboutView },
+]
+
+//暴露
+export default router
+```
+
+2. main.js引入路由
+
+```js
+import router from './router'
+...
+app.use(router)
+```
+### 工作模式
+
+#### history
+
+`createWebHistory()`
+
+不带#号,上线需要服务端处理路径问题
+
+#### hash
+
+`createWebHashHistory()`
+
+高兼容性,不美观,SEO差
+
+### 内置组件
+
+#### RouterView
+
+#### RouterLink
+
+### 路由传参
+
+
+
+### 路由跳转
+
+### [编程式导航](https://router.vuejs.org/zh/guide/essentials/navigation.html)
+
+### [导航守卫](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html)
+
+中间件
+
+#### [前置守卫](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%85%A8%E5%B1%80%E5%89%8D%E7%BD%AE%E5%AE%88%E5%8D%AB)
+
+`beforeEach((to,from,next)=>{callback})`
+
+#### [后置守卫](https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%85%A8%E5%B1%80%E5%90%8E%E7%BD%AE%E9%92%A9%E5%AD%90)
+
+`afterEach((to,from)=>{callback})`
+
+# [Animate](https://animate.style/)
 
